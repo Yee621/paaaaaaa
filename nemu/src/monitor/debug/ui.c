@@ -96,10 +96,6 @@ static int cmd_si(char *args)
 		{
 			printf("The number of 'si' must be bigger than -2!\n");
 		}
-		else if(step_num==-1)
-		{
-			cpu_exec(1);
-		}
 		else if(step_num==0)
 		{
 			cpu_exec(1);

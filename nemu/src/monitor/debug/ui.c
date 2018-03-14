@@ -100,6 +100,10 @@ static int cmd_si(char *args)
 		{
 			cpu_exec(1);
 		}
+		else if(step_num==0)
+		{
+			cpu_exec(1);
+		}
 		else
 		{
 			cpu_exec(step_num);

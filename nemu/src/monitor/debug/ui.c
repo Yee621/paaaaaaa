@@ -38,6 +38,8 @@ static int cmd_q(char *args) {
 
 static int cmd_help(char *args);
 
+static int cmd_si(char *args);
+
 static struct {
   char *name;
   char *description;
@@ -46,7 +48,7 @@ static struct {
   { "help", "Display informations about all supported commands", cmd_help },
   { "c", "Continue the execution of the program", cmd_c },
   { "q", "Exit NEMU", cmd_q },
-
+  { "si", "Degug", cmd_si },
   /* TODO: Add more commands */
 
 };
@@ -74,6 +76,36 @@ static int cmd_help(char *args) {
     printf("Unknown command '%s'\n", arg);
   }
   return 0;
+}
+
+static int cmd_si(char *args) 
+{
+	int step_num;
+	if(args==NULL) 
+	{
+		cpu_exec(1);
+	}
+	else 
+	{
+		step_num=atoi(args);
+		if(step_num>=15)
+		{
+			printf("The number of 'si' must be smaller than 15!\n");
+		}
+		else if(step_num<-1)
+		{
+			printf("The number of 'si' must be bigger than -2!\n");
+		}
+		else if(step_num==-1)
+		{
+			cpu_exec(1);
+		}
+		else
+		{
+			cpu_exec(step_num);
+		}
+	}
+	return 0;
 }
 
 void ui_mainloop(int is_batch_mode) {

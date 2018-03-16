@@ -42,6 +42,8 @@ static int cmd_si(char *args);
 
 static int cmd_info(char *args);
 
+static int cmd_x(char *args);
+
 static struct {
   char *name;
   char *description;
@@ -50,8 +52,9 @@ static struct {
   { "help", "Display informations about all supported commands", cmd_help },
   { "c", "Continue the execution of the program", cmd_c },
   { "q", "Exit NEMU", cmd_q },
-  { "si", "Degug", cmd_si },
+  { "si", "Single step execution", cmd_si },
   { "info", "Print register state", cmd_info },
+  { "x", "Print the address", cmd_x },
   /* TODO: Add more commands */
 
 };
@@ -131,6 +134,32 @@ static int cmd_info(char *args)
 		for(i=0;i<8;i++)
 		{
 			printf("%s	0x%08x	%d\n",regsb[i],reg_b(i),reg_b(i));
+		}
+	}
+	return 0;
+}
+
+static int cmd_x(char *args)
+{
+	char *str_1,*str_2;
+	int i,num;
+	uint32_t addr=0;
+	str_1=strtok(args," ");
+	str_2=strtok(args," ");
+	num=atoi(str_1);
+	if(num==0)
+	{
+		printf("The number must be bigger than 0!");
+	}
+	else
+	{
+		for(i=0;i<(strlen(str_2)-2);i++)
+		{
+			addr=addr*16+str_2[i+2]-'0';
+		}
+		for(i=0;i<num;i++)
+		{
+			printf("0x%x	%08x\n",addr,vaddr_read(addr+i,1));
 		}
 	}
 	return 0;

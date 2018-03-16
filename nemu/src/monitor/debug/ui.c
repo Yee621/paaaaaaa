@@ -40,6 +40,8 @@ static int cmd_help(char *args);
 
 static int cmd_si(char *args);
 
+static int cmd_r(char *args);
+
 static struct {
   char *name;
   char *description;
@@ -49,6 +51,7 @@ static struct {
   { "c", "Continue the execution of the program", cmd_c },
   { "q", "Exit NEMU", cmd_q },
   { "si", "Degug", cmd_si },
+  { "r", "Print register state", cmd_r },
   /* TODO: Add more commands */
 
 };
@@ -103,6 +106,31 @@ static int cmd_si(char *args)
 		else
 		{
 			cpu_exec(step_num);
+		}
+	}
+	return 0;
+}
+
+static int cmd_r(char *args)
+{
+	int i;
+	if(args==NULL)
+	{
+		printf("You haven't print the args!\n");
+	}
+	else if(strcmp(args,"r")==0)
+	{
+		for(i=0;i<8;i++)
+		{
+			printf("%s	0x%08x	%d\n",regsl[i],reg_l(i),reg_l(i));
+		}
+		for(i=0;i<8;i++)
+		{
+			printf("%s  0x%08x  %d\n",regsw[i],reg_w(i),reg_w(i));
+		}
+		for(i=0;i<8;i++)
+		{
+			printf("%s  0x%08x  %d\n",regsb[i],reg_b(i),reg_b(i));
 		}
 	}
 	return 0;

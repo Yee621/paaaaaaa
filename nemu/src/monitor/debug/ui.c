@@ -145,7 +145,7 @@ static int cmd_x(char *args)
 	int i,num;
 	uint32_t addr=0;
 	str_1=strtok(args," ");
-	str_2=strtok(args," ");
+	str_2=strtok(NULL," ");
 	num=atoi(str_1);
 	if(num==0)
 	{

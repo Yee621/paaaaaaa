@@ -40,7 +40,7 @@ static int cmd_help(char *args);
 
 static int cmd_si(char *args);
 
-static int cmd_r(char *args);
+static int cmd_info(char *args);
 
 static struct {
   char *name;
@@ -51,7 +51,7 @@ static struct {
   { "c", "Continue the execution of the program", cmd_c },
   { "q", "Exit NEMU", cmd_q },
   { "si", "Degug", cmd_si },
-  { "r", "Print register state", cmd_r },
+  { "info", "Print register state", cmd_info },
   /* TODO: Add more commands */
 
 };
@@ -111,7 +111,7 @@ static int cmd_si(char *args)
 	return 0;
 }
 
-static int cmd_r(char *args)
+static int cmd_info(char *args)
 {
 	int i;
 	if(args==NULL)

@@ -143,20 +143,17 @@ static int cmd_x(char *args)
 {
 	char *str_1,*str_2;
 	int i,num;
-	uint32_t addr=0;
+	uint32_t addr;
 	str_1=strtok(args," ");
 	str_2=strtok(NULL," ");
 	num=atoi(str_1);
-	if(num==0)
+	if(num<1)
 	{
 		printf("The number must be bigger than 0!");
 	}
 	else
 	{
-		for(i=0;i<(strlen(str_2)-2);i++)
-		{
-			addr=addr*16+str_2[i+2]-'0';
-		}
+		sscanf(str_2,"%x",&addr);
 		for(i=0;i<num;i++)
 		{
 			printf("0x%x	%08x\n",addr+i,vaddr_read(addr+i,4));

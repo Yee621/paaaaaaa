@@ -149,7 +149,7 @@ static int cmd_x(char *args)
 	num=atoi(str_1);
 	if(num<1)
 	{
-		printf("The number must be bigger than 0!");
+		printf("The number must be bigger than 0!\n");
 	}
 	else
 	{

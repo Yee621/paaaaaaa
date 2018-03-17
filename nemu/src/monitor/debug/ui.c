@@ -155,8 +155,8 @@ static int cmd_x(char *args)
 	{
 		sscanf(str_2,"%x",&addr);
 		for(i=0;i<num;i++)
-		{
-			printf("0x%x	%08x\n",addr+i,vaddr_read(addr+i,4));
+	{
+			printf("0x%x	0x%08x\n",addr+i,vaddr_read(addr+i,4));
 		}
 	}
 	return 0;

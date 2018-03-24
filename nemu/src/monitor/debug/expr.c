@@ -10,7 +10,7 @@ enum {
   TK_NOTYPE = 256, TK_EQ, TK_UNEQ,
   TK_DECIMAL,       // 10
   TK_HEXADECIMAL,   // 16
-  TK_REGISTER,      // register
+  TK_REGISTER_NAME, // register
   TK_LEFT_BRACKET,  // (
   TK_RIGHT_BRACKET, // )
   TK_LOGIC_AND,     // &&
@@ -31,25 +31,25 @@ static struct rule {
    * Pay attention to the precedence level of different rules.
    */
 
-  {"^( +)", TK_NOTYPE},       // spaces
-  {"^(\\+)", '+'},            // plus
-  {"^(-)", '-'},              // subtract or negtive
-  {"^(\\*)", '*'},            // multiply or dereference
-  {"^(/)", '/'},              // devide
-  {"^(==)", TK_EQ},           // equal
-  {"^(!=)", TK_UNEQ},         // unequal
-  {"^([0-9]+)", TK_DECIMAL},  // 10
-  {"^(0[xX][0-9|a-f|A-F]+)", TK_HEXADECIMAL},  //16
-  {"^([$%]?(e?(ax|bx|cx|dx|sp|bp|si|di|ip)|[abcd][lh]|IF|SF|OF|CF|ZF))", TK_REGISTER},                    // register
-  {"^(\\()", TK_LEFT_BRACKET}, // (
-  {"^(\\))", TK_RIGHT_BRACKET},// )
-  {"^(&&)", TK_LOGIC_AND},     // &&
-  {"^(\\|\\|)", TK_LOGIC_OR},  // ||
-  {"^(!)",  TK_LOGIC_NOT},     // !
-  {"^(>=)", TK_HIGHEREQ},      // >=
-  {"^(>)", '>'},               // >
-  {"^(<=)", TK_LOWEREQ},       // <=
-  {"^(<)", '<'},               // <
+  {"^ +$", TK_NOTYPE},       // spaces
+  {"^\\+$", '+'},            // plus
+  {"^-$", '-'},              // subtract or negtive
+  {"^\\*$", '*'},            // multiply or dereference
+  {"^/$", '/'},              // devide
+  {"^==$", TK_EQ},           // equal
+  {"^!=$", TK_UNEQ},         // unequal
+  {"^[0-9]+$", TK_DECIMAL},  // 10
+  {"^0[xX][0-9|a-f|A-F]+$", TK_HEXADECIMAL},  //16
+  {"^[$%]?(e?(ax|bx|cx|dx|sp|bp|si|di|ip)|[abcd][lh]|IF|SF|OF|CF|ZF)$", TK_REGISTER_NAME},                // register
+  {"^\\($", TK_LEFT_BRACKET}, // (
+  {"^\\)$", TK_RIGHT_BRACKET},// )
+  {"^&&$", TK_LOGIC_AND},     // &&
+  {"^\\|\\|$", TK_LOGIC_OR},  // ||
+  {"^!$",  TK_LOGIC_NOT},     // !
+  {"^>=$", TK_HIGHEREQ},      // >=
+  {"^>$", '>'},               // >
+  {"^<=$", TK_LOWEREQ},       // <=
+  {"^<$", '<'},               // <
 };
 
 #define NR_REGEX (sizeof(rules) / sizeof(rules[0]) )

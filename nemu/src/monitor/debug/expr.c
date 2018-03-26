@@ -123,14 +123,14 @@ static bool make_token(char *e) {
 				nr_token++;
 				break;
 			case '-':
-				if(tokens[nr_token-1].type==TK_DECIMAL||tokens[nr_token-1].type==TK_HEXADECIMAL||tokens[nr_token-1].type==')')
+				if(tokens[nr_token-1].type==TK_DECIMAL||tokens[nr_token-1].type==TK_HEXADECIMAL||tokens[nr_token-1].type==TK_REGISTER_NAME||tokens[nr_token-1].type==')')
 					tokens[nr_token].type=rules[i].token_type;
 				else
 					tokens[nr_token].type=TK_NEGTIVE;
 				nr_token++;
 				break;
 			case '*':
-				if(tokens[nr_token-1].type==TK_DECIMAL||tokens[nr_token-1].type==TK_HEXADECIMAL||tokens[nr_token-1].type==')')
+				if(tokens[nr_token-1].type==TK_DECIMAL||tokens[nr_token-1].type==TK_HEXADECIMAL||tokens[nr_token-1].type==TK_REGISTER_NAME||tokens[nr_token-1].type==')')
 					tokens[nr_token].type=rules[i].token_type;
 				else
 					tokens[nr_token].type=TK_DEREFERENCE;

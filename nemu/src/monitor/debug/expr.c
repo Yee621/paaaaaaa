@@ -11,11 +11,10 @@ enum {
   TK_DECIMAL,       // 10
   TK_HEXADECIMAL,   // 16
   TK_REGISTER_NAME, // register
-  TK_LEFT_BRACKET,  // (
-  TK_RIGHT_BRACKET, // )
+  TK_NEGTIVE,       // -
+  TK_DEREFERENCE,   // *
   TK_LOGIC_AND,     // &&
   TK_LOGIC_OR,      // ||
-  TK_LOGIC_NOT,     // !
   TK_HIGHEREQ,      // >=
   TK_LOWEREQ        // <=
   /* TODO: Add more token types */
@@ -40,12 +39,12 @@ static struct rule {
   {"^!=$", TK_UNEQ},         // unequal
   {"^[0-9]+$", TK_DECIMAL},  // 10
   {"^0[xX][0-9|a-f|A-F]+$", TK_HEXADECIMAL},  //16
-  {"^[$%]?(e?(ax|bx|cx|dx|sp|bp|si|di|ip)|[abcd][lh]|IF|SF|OF|CF|ZF)$", TK_REGISTER_NAME},                // register
-  {"^\\($", TK_LEFT_BRACKET}, // (
-  {"^\\)$", TK_RIGHT_BRACKET},// )
+  {"^\\$e?[abcd]x|\\$e?[bs]p|\\$e?[sd]i|\\$[abcd][hl]$", TK_REGISTER_NAME},                               // register
+  {"^\\($", '('},             // (
+  {"^\\)$", ')'},             // )
   {"^&&$", TK_LOGIC_AND},     // &&
   {"^\\|\\|$", TK_LOGIC_OR},  // ||
-  {"^!$",  TK_LOGIC_NOT},     // !
+  {"^!$",  '!'},              // !
   {"^>=$", TK_HIGHEREQ},      // >=
   {"^>$", '>'},               // >
   {"^<=$", TK_LOWEREQ},       // <=
@@ -105,7 +104,57 @@ static bool make_token(char *e) {
          */
 
         switch (rules[i].token_type) {
-          default: TODO();
+			case TK_NOTYPE:
+				continue;
+			case '+':
+			case '/':
+			case TK_EQ:
+			case TK_UNEQ:
+			case '(':
+			case ')':
+			case TK_LOGIC_AND:
+			case TK_LOGIC_OR:
+			case '!':
+			case TK_HIGHEREQ:
+			case '>':
+			case TK_LOWEREQ:
+			case '<':
+				tokens[nr_token].type=rules[i].token_type;
+				nr_token++;
+				break;
+			case '-':
+				if(tokens[nr_token-1].type==TK_DECIMAL||tokens[nr_token-1].type==TK_HEXADECIMAL||tokens[nr_token-1].type==')')
+					tokens[nr_token].type=rules[i].token_type;
+				else
+					tokens[nr_token].type=TK_NEGTIVE;
+				nr_token++;
+				break;
+			case '*':
+				if(tokens[nr_token-1].type==TK_DECIMAL||tokens[nr_token-1].type==TK_HEXADECIMAL||tokens[nr_token-1].type==')')
+					tokens[nr_token].type=rules[i].token_type;
+				else
+					tokens[nr_token].type=TK_DEREFERENCE;
+				nr_token++;
+				break;
+			case TK_DECIMAL:
+			case TK_HEXADECIMAL:
+			case TK_REGISTER_NAME:
+				if(substr_len>31)
+				{
+					Log("The description of the token is too long!");
+					return false;
+				}
+				else
+				{
+					strncpy(tokens[nr_token].str,substr_start,substr_len);
+					tokens[nr_token].str[substr_len]='\0';
+					tokens[nr_token].type=rules[i].token_type;
+					nr_token++;
+					break;
+				}
+			default:
+				Log("The type can't be matched!");
+				return false;
         }
 
         break;

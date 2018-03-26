@@ -34,7 +34,8 @@ static struct rule {
   {"^\\+$", '+'},            // plus
   {"^-$", '-'},              // subtract or negtive
   {"^\\*$", '*'},            // multiply or dereference
-  {"^/$", '/'},              // devide
+  {"^\\/$", '/'},            // devide
+  {"^%$", '%'},              // mod
   {"^==$", TK_EQ},           // equal
   {"^!=$", TK_UNEQ},         // unequal
   {"^[0-9]+$", TK_DECIMAL},  // 10
@@ -108,6 +109,7 @@ static bool make_token(char *e) {
 				continue;
 			case '+':
 			case '/':
+			case '%':
 			case TK_EQ:
 			case TK_UNEQ:
 			case '(':
@@ -168,6 +170,30 @@ static bool make_token(char *e) {
   }
 
   return true;
+}
+
+bool check_parentheses(int p,int q)
+{
+	if((tokens[p].type!='(')||(tokens[q].type!=')'))
+		return false;
+	int i,num_1,num_2;
+	num_1=0;
+	num_2=0;
+	for(i=p+1;i<p;i++)
+	{
+		if(tokens[i].type=='(')
+			num_1++;
+		else if(tokens[i].type==')')
+		{
+			num_2++;
+			if(num_2>num_1)
+			return false;
+		}
+	}
+	if(num_1!=num_2)
+		return false;
+	else
+		return true;
 }
 
 uint32_t expr(char *e, bool *success) {

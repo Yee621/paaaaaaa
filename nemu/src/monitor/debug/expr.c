@@ -390,6 +390,7 @@ uint32_t expr(char *e, bool *success) {
     return 0;
   }
 
+  printf("%d",nr_token-1);
   /* TODO: Insert codes to evaluate the expression. */
 
   return eval(0,nr_token-1);

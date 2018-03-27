@@ -44,6 +44,8 @@ static int cmd_info(char *args);
 
 static int cmd_x(char *args);
 
+static int cmd_p(char *args);
+
 static struct {
   char *name;
   char *description;
@@ -55,6 +57,7 @@ static struct {
   { "si", "Single step execution", cmd_si },
   { "info", "Print register state", cmd_info },
   { "x", "Print the address", cmd_x },
+  { "p", "Expression evaluation", cmd_p},
   /* TODO: Add more commands */
 
 };
@@ -159,6 +162,16 @@ static int cmd_x(char *args)
 			printf("0x%x	%02x %02x %02x %02x\n",addr+i,vaddr_read(addr+i,1),vaddr_read(addr+i+1,1),vaddr_read(addr+i+2,1),vaddr_read(addr+i+3,1));
 		}
 	}
+	return 0;
+}
+
+static int cmd_p(char *args)
+{
+	bool success=true;
+	uint32_t result;
+	result=expr(args,&success);
+	if(success==true)
+		printf("result: %d",result);
 	return 0;
 }
 

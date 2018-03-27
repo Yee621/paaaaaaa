@@ -196,6 +196,194 @@ bool check_parentheses(int p,int q)
 		return true;
 }
 
+int search_dominant(int p,int q)
+{
+	int location,t,min_level,level;
+	location=-1;
+	min_level=0;
+	for(t=p;t<=q;t++)
+	{
+		if(tokens[t].type=='(')
+		{
+			t++;
+			while(tokens[t].type==')')
+				t++;
+			if(t==q)
+				break;
+			t++;
+		}
+		if(tokens[t].type!=TK_DECIMAL&&tokens[t].type!=TK_HEXADECIMAL&&tokens[t].type!=TK_REGISTER_NAME)
+		{
+			switch(tokens[t].type)
+			{
+				case TK_NEGTIVE:
+				case TK_DEREFERENCE:
+				case '!':
+					level=2;
+					break;
+				case '/':
+				case '*':
+				case '%':
+					level=3;
+					break;
+				case '+':
+				case '-':
+					level=4;
+					break;
+				case '>':
+				case TK_HIGHEREQ:
+				case '<':
+				case TK_LOWEREQ:
+					level=6;
+					break;
+				case TK_EQ:
+				case TK_UNEQ:
+					level=7;
+					break;
+				case TK_LOGIC_AND:
+					level=11;
+					break;
+				case TK_LOGIC_OR:
+					level=12;
+					break;
+				default:
+					panic("The token is wrong!");
+			}
+			if(level>min_level)
+			{
+				min_level=level;
+				location=t;
+			}
+		}
+	}
+	if(location==-1)
+		panic("The dominant can't be found!");
+	return location;
+}
+
+uint32_t eval(int p,int q)
+{
+	if(p>q)
+		panic("Bad expression!");
+	else if(p==q)
+	{
+		uint32_t num;
+		if(tokens[p].type==TK_DECIMAL)
+		{
+			sscanf(tokens[p].str,"%d",&num);
+			return num;
+		}
+		else if(tokens[p].type==TK_HEXADECIMAL)
+		{
+			sscanf(tokens[p].str,"%x",&num);
+			return num;
+		}
+		else if(tokens[p].type==TK_REGISTER_NAME)
+		{
+			if(strcmp(tokens[p].str,"$eax")==0)
+				return reg_l(R_EAX);
+			else if(strcmp(tokens[p].str,"$ebx")==0)
+				return reg_l(R_EBX);
+			else if(strcmp(tokens[p].str,"$ecx")==0)
+				return reg_l(R_ECX);
+			else if(strcmp(tokens[p].str,"$edx")==0)
+				return reg_l(R_EDX);
+			else if(strcmp(tokens[p].str,"$esp")==0)
+				return reg_l(R_ESP);
+			else if(strcmp(tokens[p].str,"$ebp")==0)
+				return reg_l(R_EBP);
+			else if(strcmp(tokens[p].str,"$esi")==0)
+				return reg_l(R_ESI);
+			else if(strcmp(tokens[p].str,"$edi")==0)
+				return reg_l(R_EDI);
+			else if(strcmp(tokens[p].str,"$ax")==0)
+				return reg_w(R_AX);
+			else if(strcmp(tokens[p].str,"$bx")==0)
+				return reg_w(R_BX);
+			else if(strcmp(tokens[p].str,"$cx")==0)
+				return reg_w(R_CX);
+			else if(strcmp(tokens[p].str,"$dx")==0)
+				return reg_w(R_DX);
+			else if(strcmp(tokens[p].str,"$sp")==0)
+				return reg_w(R_SP);
+			else if(strcmp(tokens[p].str,"$bp")==0)
+				return reg_w(R_BP);
+			else if(strcmp(tokens[p].str,"$si")==0)
+				return reg_w(R_SI);
+			else if(strcmp(tokens[p].str,"$di")==0)
+				return reg_w(R_DI);
+			else if(strcmp(tokens[p].str,"$al")==0)
+				return reg_b(R_AL);
+			else if(strcmp(tokens[p].str,"$bl")==0)
+				return reg_b(R_BL);
+			else if(strcmp(tokens[p].str,"$cl")==0)
+				return reg_b(R_CL);
+			else if(strcmp(tokens[p].str,"$dl")==0)
+				return reg_b(R_DL);
+			else if(strcmp(tokens[p].str,"$ah")==0)
+				return reg_b(R_AH);
+			else if(strcmp(tokens[p].str,"$bh")==0)
+				return reg_b(R_BH);
+			else if(strcmp(tokens[p].str,"$ch")==0)
+				return reg_b(R_CH);
+			else if(strcmp(tokens[p].str,"$dh")==0)
+				return reg_b(R_DH);
+		}
+		else
+			panic("The token is wrong!");
+	}
+	else if(check_parentheses(p,q)==true)
+		return eval(p+1,q-1);
+	else
+	{
+		int op,val1,val2;
+		op=search_dominant(p,q);
+		val1=eval(p,op-1);
+		val2=eval(op+1,q);
+		switch(tokens[op].type)
+		{
+			case '+':
+				return val1+val2;
+			case '-':
+				return val1-val2;
+			case TK_NEGTIVE:
+				return -1*val2;
+			case '*':
+				return val1*val2;
+			case TK_DEREFERENCE:
+				return vaddr_read(val2,4);
+			case '/':
+				if(val2!=0)
+					return val1/val2;
+				else
+					panic("The expression is illegal!");
+			case '%':
+				return val1%val2;
+			case TK_EQ:
+				return val1==val2;
+			case TK_UNEQ:
+				return val1!=val2;
+			case TK_LOGIC_AND:
+				return val1&&val2;
+			case TK_LOGIC_OR:
+				return val1||val2;
+			case '!':
+				return !val2;
+			case TK_HIGHEREQ:
+				return val1>=val2;
+			case '>':
+				return val1>val2;
+			case TK_LOWEREQ:
+				return val1<=val2;
+			case '<':
+				return val1<val2;
+			default:
+				panic("The token is wrong!");
+		}
+	}
+	return 0;
+}
+
 uint32_t expr(char *e, bool *success) {
   if (!make_token(e)) {
     *success = false;
@@ -203,7 +391,6 @@ uint32_t expr(char *e, bool *success) {
   }
 
   /* TODO: Insert codes to evaluate the expression. */
-  TODO();
 
-  return 0;
+  return eval(0,nr_token-1);
 }

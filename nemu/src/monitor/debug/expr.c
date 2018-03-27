@@ -38,13 +38,15 @@ static struct rule {
   {"%", '%'},              // mod
   {"==", TK_EQ},           // equal
   {"!=", TK_UNEQ},         // unequal
-  {"[0-9]+", TK_DECIMAL},  // 10
   {"0[xX][0-9|a-f|A-F]+", TK_HEXADECIMAL},  //16
+  {"[0-9]+", TK_DECIMAL},  // 10
   {"\\$e?[abcd]x|\\$e?[bs]p|\\$e?[sd]i|\\$[abcd][hl]", TK_REGISTER_NAME},                               // register
   {"\\(", '('},             // (
   {"\\)", ')'},             // )
   {"&&", TK_LOGIC_AND},     // &&
+  {"&", '&'},               // &
   {"\\|\\|", TK_LOGIC_OR},  // ||
+  {"\\|", '|'},             // |
   {"!",  '!'},              // !
   {">=", TK_HIGHEREQ},      // >=
   {">", '>'},               // >
@@ -117,6 +119,8 @@ static bool make_token(char *e) {
 			case TK_LOGIC_AND:
 			case TK_LOGIC_OR:
 			case '!':
+			case '&':
+			case '|':
 			case TK_HIGHEREQ:
 			case '>':
 			case TK_LOWEREQ:
@@ -239,6 +243,12 @@ int search_dominant(int p,int q)
 				case TK_EQ:
 				case TK_UNEQ:
 					level=7;
+					break;
+				case '&':
+					level=8;
+					break;
+				case '|':
+					level=10;
 					break;
 				case TK_LOGIC_AND:
 					level=11;
@@ -367,8 +377,12 @@ uint32_t eval(int p,int q)
 				return val1!=val2;
 			case TK_LOGIC_AND:
 				return val1&&val2;
+			case '&':
+				return val1&val2;
 			case TK_LOGIC_OR:
 				return val1||val2;
+			case '|':
+				return val1|val2;
 			case TK_HIGHEREQ:
 				return val1>=val2;
 			case '>':

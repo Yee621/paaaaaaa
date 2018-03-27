@@ -206,7 +206,7 @@ int search_dominant(int p,int q)
 		if(tokens[t].type=='(')
 		{
 			t++;
-			while(tokens[t].type==')')
+			while(tokens[t].type!=')')
 				t++;
 			if(t==q)
 				break;

@@ -171,7 +171,7 @@ static int cmd_p(char *args)
 	uint32_t result;
 	result=expr(args,&success);
 	if(success==true)
-		printf("result: %d",result);
+		printf("result: %d\n",result);
 	return 0;
 }
 

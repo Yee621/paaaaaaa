@@ -30,26 +30,26 @@ static struct rule {
    * Pay attention to the precedence level of different rules.
    */
 
-  {"^ +$", TK_NOTYPE},       // spaces
-  {"^\\+$", '+'},            // plus
-  {"^-$", '-'},              // subtract or negtive
-  {"^\\*$", '*'},            // multiply or dereference
-  {"^\\/$", '/'},            // devide
-  {"^%$", '%'},              // mod
-  {"^==$", TK_EQ},           // equal
-  {"^!=$", TK_UNEQ},         // unequal
-  {"^[0-9]+$", TK_DECIMAL},  // 10
-  {"^0[xX][0-9|a-f|A-F]+$", TK_HEXADECIMAL},  //16
-  {"^\\$e?[abcd]x|\\$e?[bs]p|\\$e?[sd]i|\\$[abcd][hl]$", TK_REGISTER_NAME},                               // register
-  {"^\\($", '('},             // (
-  {"^\\)$", ')'},             // )
-  {"^&&$", TK_LOGIC_AND},     // &&
-  {"^\\|\\|$", TK_LOGIC_OR},  // ||
+  {" +", TK_NOTYPE},       // spaces
+  {"\\+", '+'},            // plus
+  {"-", '-'},              // subtract or negtive
+  {"\\*", '*'},            // multiply or dereference
+  {"\\/", '/'},            // devide
+  {"%", '%'},              // mod
+  {"==", TK_EQ},           // equal
+  {"!=", TK_UNEQ},         // unequal
+  {"[0-9]+", TK_DECIMAL},  // 10
+  {"0[xX][0-9|a-f|A-F]+", TK_HEXADECIMAL},  //16
+  {"\\$e?[abcd]x|\\$e?[bs]p|\\$e?[sd]i|\\$[abcd][hl]", TK_REGISTER_NAME},                               // register
+  {"\\(", '('},             // (
+  {"\\)", ')'},             // )
+  {"&&", TK_LOGIC_AND},     // &&
+  {"\\|\\|", TK_LOGIC_OR},  // ||
   {"!",  '!'},              // !
-  {"^>=$", TK_HIGHEREQ},      // >=
-  {"^>$", '>'},               // >
-  {"^<=$", TK_LOWEREQ},       // <=
-  {"^<$", '<'},               // <
+  {">=", TK_HIGHEREQ},      // >=
+  {">", '>'},               // >
+  {"<=", TK_LOWEREQ},       // <=
+  {"<", '<'},               // <
 };
 
 #define NR_REGEX (sizeof(rules) / sizeof(rules[0]) )

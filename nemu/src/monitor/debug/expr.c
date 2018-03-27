@@ -338,6 +338,12 @@ uint32_t eval(int p,int q)
 	{
 		int op,val1,val2;
 		op=search_dominant(p,q);
+		if(tokens[op].type==TK_NEGTIVE)
+			return -1*eval(op+1,q);
+		else if(tokens[op].type==TK_DEREFERENCE)
+			return vaddr_read(eval(op+1,q),4);
+		else if(tokens[op].type=='!')
+			return !(eval(op+1,q));
 		val1=eval(p,op-1);
 		val2=eval(op+1,q);
 		switch(tokens[op].type)
@@ -346,12 +352,8 @@ uint32_t eval(int p,int q)
 				return val1+val2;
 			case '-':
 				return val1-val2;
-			case TK_NEGTIVE:
-				return -1*val2;
 			case '*':
 				return val1*val2;
-			case TK_DEREFERENCE:
-				return vaddr_read(val2,4);
 			case '/':
 				if(val2!=0)
 					return val1/val2;
@@ -367,8 +369,6 @@ uint32_t eval(int p,int q)
 				return val1&&val2;
 			case TK_LOGIC_OR:
 				return val1||val2;
-			case '!':
-				return !val2;
 			case TK_HIGHEREQ:
 				return val1>=val2;
 			case '>':
@@ -390,7 +390,6 @@ uint32_t expr(char *e, bool *success) {
     return 0;
   }
 
-  printf("%d",nr_token-1);
   /* TODO: Insert codes to evaluate the expression. */
 
   return eval(0,nr_token-1);

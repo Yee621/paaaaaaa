@@ -33,17 +33,14 @@ WP*  new_wp(char *args)
 		p->new_value=expr(args,success);
 		if(head!=NULL)
 		{
-			WP *t;
-			t=head;
-			while(t->next!=NULL)
-				t=t->next;
-			t->next=p;
+			p->next=head;
+			head=p;
 		}
 		else
 		{
 			head=p;
+			p->next=NULL;
 		}
-		p->next=NULL;
 		return p;
 	}
 	else
@@ -52,6 +49,48 @@ WP*  new_wp(char *args)
 		assert(0);
 	}
 }
+
+void free_wp(int num)
+{
+	if(head==NULL)
+		panic("There is no watchpoint!");
+	WP *p,*q;
+	p=head;
+	q=NULL;
+	if(p->NO==num)
+	{
+		q=p;
+		head=p->next;
+	}
+	else
+	{
+		for(p=p->next;p->next!=NULL;p=p->next)
+		{
+			if(p->next->NO==num)
+			{
+				q=p->next;
+				p->next=p->next->next;
+				break;
+			}
+		}
+	}
+	if(q==NULL)
+		panic("Can't find the NO.%d wp!",num);
+	q->NO=0;
+	q->new_value=0;
+	memset(q->expr,0,sizeof(q->expr));
+	if(free_==NULL)
+	{
+		free_=q;
+		q->next=NULL;
+	}
+	else
+	{
+		q->next=free_;
+		free_=q;
+	}
+}
+
 
 /* TODO: Implement the functionality of watchpoint */
 

@@ -19,4 +19,6 @@ void free_wp(int num);
 
 void set_NO();
 
+int check_wp();
+
 #endif

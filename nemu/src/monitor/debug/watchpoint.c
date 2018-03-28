@@ -104,6 +104,28 @@ void set_NO()
 	}
 }
 
+int check_wp()
+{
+	WP *p;
+	p=head;
+	int change=0;
+	uint32_t value;
+	bool *success=(bool *)true;
+	while(p!=NULL)
+	{
+		value=expr(p->expr,success);
+		if(value!=p->new_value)
+		{
+			change=1;
+			p->old_value=p->new_value;
+			p->new_value=value;
+		}
+		p=p->next;
+	}
+	return change;
+}
+
+
 /* TODO: Implement the functionality of watchpoint */
 
 

@@ -269,7 +269,7 @@ int search_dominant(int p,int q)
 				default:
 					panic("The token is wrong!");
 			}
-			if(level>min_level)
+			if(level>=min_level)
 			{
 				min_level=level;
 				location=t;

@@ -273,7 +273,6 @@ int search_dominant(int p,int q)
 			{
 				min_level=level;
 				location=t;
-				printf("%d ",t);
 			}
 		}
 	}

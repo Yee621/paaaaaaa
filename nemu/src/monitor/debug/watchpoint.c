@@ -41,6 +41,7 @@ WP*  new_wp(char *args)
 			head=p;
 			p->next=NULL;
 		}
+		set_NO();
 		return p;
 	}
 	else
@@ -89,8 +90,19 @@ void free_wp(int num)
 		q->next=free_;
 		free_=q;
 	}
+	set_NO();
 }
 
+void set_NO()
+{
+	WP *p;
+	int num=1;
+	for(p=head;p!=NULL;p=p->next)
+	{
+		p->NO=num;
+		num++;
+	}
+}
 
 /* TODO: Implement the functionality of watchpoint */
 

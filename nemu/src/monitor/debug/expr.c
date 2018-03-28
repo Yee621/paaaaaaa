@@ -16,7 +16,9 @@ enum {
   TK_LOGIC_AND,     // &&
   TK_LOGIC_OR,      // ||
   TK_HIGHEREQ,      // >=
-  TK_LOWEREQ        // <=
+  TK_RIGHT_SHIFT,   // >>
+  TK_LOWEREQ,       // <=
+  TK_LEFT_SHIFT     // <<
   /* TODO: Add more token types */
 
 };
@@ -49,8 +51,10 @@ static struct rule {
   {"\\|", '|'},             // |
   {"!",  '!'},              // !
   {">=", TK_HIGHEREQ},      // >=
+  {">>", TK_RIGHT_SHIFT},   // >>
   {">", '>'},               // >
   {"<=", TK_LOWEREQ},       // <=
+  {"<<", TK_LEFT_SHIFT},    // <<
   {"<", '<'},               // <
 };
 
@@ -122,8 +126,10 @@ static bool make_token(char *e) {
 			case '&':
 			case '|':
 			case TK_HIGHEREQ:
+			case TK_RIGHT_SHIFT:
 			case '>':
 			case TK_LOWEREQ:
+			case TK_LEFT_SHIFT:
 			case '<':
 				tokens[nr_token].type=rules[i].token_type;
 				nr_token++;
@@ -233,6 +239,10 @@ int search_dominant(int p,int q)
 				case '+':
 				case '-':
 					level=4;
+					break;
+				case TK_RIGHT_SHIFT:
+				case TK_LEFT_SHIFT:
+					level=5;
 					break;
 				case '>':
 				case TK_HIGHEREQ:
@@ -385,10 +395,14 @@ uint32_t eval(int p,int q)
 				return val1|val2;
 			case TK_HIGHEREQ:
 				return val1>=val2;
+			case TK_RIGHT_SHIFT:
+				return val1>>val2;
 			case '>':
 				return val1>val2;
 			case TK_LOWEREQ:
 				return val1<=val2;
+			case TK_LEFT_SHIFT:
+				return val1<<val2;
 			case '<':
 				return val1<val2;
 			default:

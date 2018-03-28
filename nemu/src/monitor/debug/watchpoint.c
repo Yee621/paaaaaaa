@@ -18,6 +18,41 @@ void init_wp_pool() {
   free_ = wp_pool;
 }
 
+WP*  new_wp(char *args)
+{
+	if(strlen(args)>31)
+		panic("The expression is too long!");
+	if(free_!=NULL)
+	{
+		WP *p;
+		bool *success;
+		success=(bool *)true;
+		p=free_;
+		free_=free_->next;
+		strcpy(p->expr,args);
+		p->new_value=expr(args,success);
+		if(head!=NULL)
+		{
+			WP *t;
+			t=head;
+			while(t->next!=NULL)
+				t=t->next;
+			t->next=p;
+		}
+		else
+		{
+			head=p;
+		}
+		p->next=NULL;
+		return p;
+	}
+	else
+	{
+		printf("The watchpoint has been used up!");
+		assert(0);
+	}
+}
+
 /* TODO: Implement the functionality of watchpoint */
 
 

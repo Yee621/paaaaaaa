@@ -1,6 +1,5 @@
 #ifndef __WATCHPOINT_H__
 #define __WATCHPOINT_H__
-
 #include "common.h"
 
 typedef struct watchpoint {
@@ -13,5 +12,11 @@ typedef struct watchpoint {
 
 
 } WP;
+
+WP*  new_wp(char *args);
+
+
+
+
 
 #endif

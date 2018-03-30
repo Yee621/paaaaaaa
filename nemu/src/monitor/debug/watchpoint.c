@@ -132,6 +132,8 @@ void info_wp()
 	p=head;
 	if(p!=NULL)
 		printf("Num	Value	expr\n");
+	else 
+		printf("There is no watchpoint!");
 	while(p!=NULL)
 	{
 		printf("%d	%x	%s\n",p->NO,p->new_value,p->expr);

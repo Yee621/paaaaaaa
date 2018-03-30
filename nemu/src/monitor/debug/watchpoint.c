@@ -18,7 +18,7 @@ void init_wp_pool() {
   free_ = wp_pool;
 }
 
-WP*  new_wp(char *args)
+void  new_wp(char *args)
 {
 	if(strlen(args)>31)
 		panic("The expression is too long!");
@@ -32,6 +32,7 @@ WP*  new_wp(char *args)
 		memset(p->expr,0,sizeof(p->expr));
 		strcpy(p->expr,args);
 		p->new_value=expr(args,success);
+		p->type='w';
 		if(head!=NULL)
 		{
 			p->next=head;
@@ -43,11 +44,44 @@ WP*  new_wp(char *args)
 			p->next=NULL;
 		}
 		set_NO();
-		return p;
 	}
 	else
 	{
 		printf("The watchpoint has been used up!");
+		assert(0);
+	}
+}
+
+void  new_bp(char *args)
+{
+	if(strlen(args)>31)
+		panic("The expression is too long!");
+	if(free_!=NULL)
+	{
+		WP *p;
+		bool *success;
+		success=(bool *)true;
+		p=free_;
+		free_=free_->next;
+		memset(p->expr,0,sizeof(p->expr));
+		strcpy(p->expr,args);
+		p->new_value=expr(args,success);
+		p->type='b';
+		if(head!=NULL)
+		{
+			p->next=head;
+			head=p;
+		}
+		else
+		{
+			head=p;
+			p->next=NULL;
+		}
+		set_NO();
+	}
+	else
+	{
+		printf("The breakpoint has been used up!");
 		assert(0);
 	}
 }
@@ -80,7 +114,6 @@ void free_wp(int num)
 		panic("Can't find the NO.%d wp!",num);
 	q->NO=0;
 	q->new_value=0;
-	memset(q->expr,0,sizeof(q->expr));
 	if(free_==NULL)
 	{
 		free_=q;
@@ -114,14 +147,17 @@ int check_wp()
 	bool *success=(bool *)true;
 	while(p!=NULL)
 	{
-		value=expr(p->expr,success);
-		if(value!=p->new_value)
+		if(p->type=='b')
 		{
-			printf("old_value: %x\n",p->new_value);
-			printf("new_value: %x\n",value);
-			change=1;
-			p->old_value=p->new_value;
-			p->new_value=value;
+			value=expr(p->expr,success);
+			if(value!=p->new_value)
+			{
+				printf("old_value: %x\n",p->new_value);
+				printf("new_value: %x\n",value);
+				change=1;
+				p->old_value=p->new_value;
+				p->new_value=value;
+			}
 		}
 		p=p->next;
 	}
@@ -133,12 +169,12 @@ void info_wp()
 	WP *p;
 	p=head;
 	if(p!=NULL)
-		printf("Num	expr	value\n");
+		printf("Num	type	expr	value\n");
 	else 
-		printf("There is no watchpoint!\n");
+		printf("There is no watchpoint or breakpoint!\n");
 	while(p!=NULL)
 	{
-		printf("%d	%s	%x\n",p->NO,p->expr,p->new_value);
+		printf("%d	%c	%s	%x\n",p->NO,p->type,p->expr,p->new_value);
 		p=p->next;
 	}
 }

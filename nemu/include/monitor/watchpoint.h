@@ -4,6 +4,7 @@
 
 typedef struct watchpoint {
   int NO;
+  char type;
   struct watchpoint *next;
   char expr[32];
   uint32_t old_value;
@@ -13,7 +14,7 @@ typedef struct watchpoint {
 
 } WP;
 
-WP*  new_wp(char *args);
+void  new_wp(char *args);
 
 void free_wp(int num);
 
@@ -22,5 +23,7 @@ void set_NO();
 int check_wp();
 
 void info_wp();
+
+void new_bp(char *args);
 
 #endif

@@ -50,6 +50,8 @@ static int cmd_w(char *args);
 
 static int cmd_d(char *args);
 
+static int cmd_b(char *args);
+
 static struct {
   char *name;
   char *description;
@@ -62,8 +64,9 @@ static struct {
   { "info", "Print register state", cmd_info },
   { "x", "Print the address", cmd_x },
   { "p", "Expression evaluation", cmd_p},
-  { "w", "Info the watchpoint or create a new watchpoint", cmd_w },
+  { "w", "Info the watchpoint and breakpoint or create a new watchpoint", cmd_w },
   { "d", "Delete a watchpoint", cmd_d },
+  { "b", "Create a new breakpoint", cmd_b},
   /* TODO: Add more commands */
 
 };
@@ -198,13 +201,26 @@ static int cmd_d(char *args)
 {
 	if(args==NULL)
 	{
-		printf("You haven't printf the number of watchpoint to delete!\n");
+		printf("You haven't input the number of watchpoint to delete!\n");
 	}
 	else
 	{
 		int num;
 		sscanf(args,"%d",&num);
 		free_wp(num);
+	}
+	return 0;
+}
+
+static int cmd_b(char *args)
+{
+	if(args==NULL)
+	{
+		printf("You haven't input the expression of the breakpoint!\n");
+	}
+	else
+	{
+		new_bp(args);
 	}
 	return 0;
 }

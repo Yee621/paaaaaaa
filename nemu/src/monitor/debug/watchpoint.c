@@ -133,12 +133,12 @@ void info_wp()
 	WP *p;
 	p=head;
 	if(p!=NULL)
-		printf("Num	Value		expr\n");
+		printf("Num	expr	value\n");
 	else 
 		printf("There is no watchpoint!\n");
 	while(p!=NULL)
 	{
-		printf("%d	%x	%s\n",p->NO,p->new_value,p->expr);
+		printf("%d	%s	%x\n",p->NO,p->expr,p->new_value);
 		p=p->next;
 	}
 }

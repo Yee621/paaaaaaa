@@ -138,7 +138,7 @@ void info_wp()
 		printf("There is no watchpoint!\n");
 	while(p!=NULL)
 	{
-		printf("%d	%x		%s\n",p->NO,p->new_value,p->expr);
+		printf("%d	%x	%s\n",p->NO,p->new_value,p->expr);
 		p=p->next;
 	}
 }

@@ -29,6 +29,7 @@ WP*  new_wp(char *args)
 		success=(bool *)true;
 		p=free_;
 		free_=free_->next;
+		memset(p->expr,0,sizeof(p->expr));
 		strcpy(p->expr,args);
 		p->new_value=expr(args,success);
 		if(head!=NULL)
@@ -125,6 +126,17 @@ int check_wp()
 	return change;
 }
 
+void info_wp()
+{
+	WP *p;
+	p=head;
+	printf("Num	Value	expr\n");
+	while(p!=NULL)
+	{
+		printf("%d	%x	%s\n",p->NO,p->new_value,p->expr);
+		p=p->next;
+	}
+}
 
 /* TODO: Implement the functionality of watchpoint */
 

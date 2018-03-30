@@ -21,4 +21,6 @@ void set_NO();
 
 int check_wp();
 
+void info_wp();
+
 #endif

@@ -131,7 +131,7 @@ void info_wp()
 	WP *p;
 	p=head;
 	if(p!=NULL)
-		printf("Num	Value	expr\n");
+		printf("Num	Value		expr\n");
 	else 
 		printf("There is no watchpoint!");
 	while(p!=NULL)

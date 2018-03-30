@@ -117,6 +117,8 @@ int check_wp()
 		value=expr(p->expr,success);
 		if(value!=p->new_value)
 		{
+			printf("old_value: %x\n",p->new_value);
+			printf("new_value: %x\n",value);
 			change=1;
 			p->old_value=p->new_value;
 			p->new_value=value;

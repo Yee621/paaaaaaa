@@ -64,7 +64,7 @@ static struct {
   { "info", "Print register state", cmd_info },
   { "x", "Print the address", cmd_x },
   { "p", "Expression evaluation", cmd_p},
-  { "w", "Info the watchpoint and breakpoint or create a new watchpoint", cmd_w },
+  { "w", "Info the watchpoints and breakpoints or create a new watchpoint", cmd_w },
   { "d", "Delete a watchpoint", cmd_d },
   { "b", "Create a new breakpoint", cmd_b},
   /* TODO: Add more commands */

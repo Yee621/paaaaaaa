@@ -158,6 +158,7 @@ int check_wp()
 				change=1;
 				p->old_value=p->new_value;
 				p->new_value=value;
+				break;
 			}
 		}
 		p=p->next;

@@ -94,6 +94,7 @@ void free_wp(int num)
 			{
 				q=p->next;
 				p->next=p->next->next;
+				break;
 			}
 		}
 	}
@@ -101,8 +102,8 @@ void free_wp(int num)
 		panic("Can't find the NO.%d wp!",num);
 	q->NO=0;
 	q->new_value=0;
-	p->next=q;
-	q->next=free_;
+	q->next=free_->next;
+	free_->next=q;
 	set_NO();
 }
 

@@ -156,6 +156,7 @@ int check_bp()
 	 {
 		if(p->type=='b')
 	 	{
+			change=2;
 			value=expr(p->expr,success);
 			if(value!=p->new_value)
 	 		{
@@ -170,7 +171,7 @@ int check_bp()
 	 	}
 		p=p->next;
 	}
-	if(change==0)
+	if(change==2)
 		printf("There is no change at the breakpoint %s!\n",p->expr);
 	change=1;
 	return change;

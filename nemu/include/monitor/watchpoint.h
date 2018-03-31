@@ -26,4 +26,6 @@ void info_wp();
 
 void new_bp(char *args);
 
+int check_bp();
+
 #endif

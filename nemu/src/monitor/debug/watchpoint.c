@@ -147,26 +147,51 @@ int check_wp()
 	bool *success=(bool *)true;
 	while(p!=NULL)
 	{
-		value=expr(p->expr,success);
-		if(value!=p->new_value)
+		if(p->type=='w')
 		{
-			printf("old_value: %x\n",p->new_value);
-			printf("new_value: %x\n",value);
-			change=1;
-			p->old_value=p->new_value;
-			p->new_value=value;
-			break;
+			value=expr(p->expr,success);
+			if(value!=p->new_value)
+			{
+				printf("old_value: %x\n",p->new_value);
+				printf("new_value: %x\n",value);
+				change=1;
+				p->old_value=p->new_value;
+				p->new_value=value;
+				break;
+			}
 		}
 		p=p->next;
 	}
-	if(p->type=='b')
+	return change;
+}
+
+int check_bp()
+{
+	WP *p;
+	p=head;
+	int change=0;
+	uint32_t value;
+	bool *success=(bool *)true;
+	while(p!=NULL)
 	{
-		if(change==0)
-			printf("There is no change at the breakpoint!");
-		else
-			return change;
+		if(p->type=='b')
+		{
+			value=expr(p->expr,success);
+			if(value!=p->new_value)
+			{
+				printf("old_value: %x\n",p->new_value);
+				printf("new_value: %x\n",value);
+				change=1;
+				p->old_value=p->new_value;
+				p->new_value=value;
+				break;
+			}
+		}
+		p=p->next;
 	}
-	return 0;
+	if(change==0)
+		printf("There is no change at the breakpoint!");
+	return change;
 }
 
 void info_wp()

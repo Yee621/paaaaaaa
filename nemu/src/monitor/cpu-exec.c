@@ -12,6 +12,8 @@ int nemu_state = NEMU_STOP;
 
 int check_wp();
 
+int check_bp();
+
 void exec_wrapper(bool);
 
 /* Simulate how the CPU works. */
@@ -33,8 +35,14 @@ void cpu_exec(uint64_t n) {
     /* TODO: check watchpoints here. */
 	while(check_wp())
 	{
+		;
+	}
+
+	if(check_bp())
+	{
 		nemu_state=NEMU_STOP;
 	}
+
 #endif
 
 #ifdef HAS_IOE

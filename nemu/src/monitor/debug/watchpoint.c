@@ -152,7 +152,7 @@ int check_wp()
 			value=expr(p->expr,success);
 			if(value!=p->new_value)
 			{
-				printf("%s:\n",p->expr);
+				printf("watchponit %s:\n",p->expr);
 				printf("   old_value: %x\n",p->new_value);
 				printf("   new_value: %x\n",value);
 				change=1;
@@ -176,11 +176,11 @@ int check_bp()
 	while(p!=NULL)
 	{
 		if(p->type=='b')
-		{
+	 	{
 			value=expr(p->expr,success);
 			if(value!=p->new_value)
-			{
-				printf("%s:\n",p->expr);
+	 		{
+				printf("breakpoint %s:\n",p->expr);
 				printf("   old_value: %x\n",p->new_value);
 				printf("   new_value: %x\n",value);
 				printf("   STOP!\n");
@@ -191,7 +191,7 @@ int check_bp()
 			}
 		}
 		p=p->next;
-	}
+	} 
 	return change;
 }
 

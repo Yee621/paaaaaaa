@@ -39,15 +39,8 @@ void cpu_exec(uint64_t n) {
 		printf("STOP!\n");
 	}
 
-	int i=check_bp();
-	if(i==0)
-	{
-		printf("The value of the breakpoint isn't change!\n");
-		nemu_state=NEMU_STOP;
-		printf("STOP!");
-	}
-	else if(i==1)
-	{
+	if(check_bp())
+	{ 
 		nemu_state=NEMU_STOP;
 		printf("STOP!\n");
 	}

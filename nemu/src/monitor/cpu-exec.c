@@ -22,7 +22,7 @@ void cpu_exec(uint64_t n) {
     printf("Program execution has ended. To restart the program, exit NEMU and run again.\n");
     return;
   }
-  nemu_state = NEMU_RUNNING;
+nemu_state = NEMU_RUNNING;
 
   bool print_flag = n < MAX_INSTR_TO_PRINT;
 

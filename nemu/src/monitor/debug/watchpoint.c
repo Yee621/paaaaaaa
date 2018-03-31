@@ -183,7 +183,7 @@ int check_bp()
 				printf("%s:\n",p->expr);
 				printf("   old_value: %x\n",p->new_value);
 				printf("   new_value: %x\n",value);
-				printf("STOP!\n");
+				printf("   STOP!\n");
 				change=1;
 				p->old_value=p->new_value;
 				p->new_value=value;
@@ -192,8 +192,6 @@ int check_bp()
 		}
 		p=p->next;
 	}
-	if(change==0)
-		printf("There is no change at breakpoints!\n");
 	return change;
 }
 

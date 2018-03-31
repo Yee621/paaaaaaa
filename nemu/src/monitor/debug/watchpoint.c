@@ -147,6 +147,7 @@ int check_wp()
 	bool *success=(bool *)true;
 	while(p!=NULL)
 	{
+		printf("1");
 		if(p->type=='w')
  		{
 			value=expr(p->expr,success);

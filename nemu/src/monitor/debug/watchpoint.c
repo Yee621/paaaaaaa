@@ -165,11 +165,13 @@ int check_bp()
 				p->old_value=p->new_value;
 				p->new_value=value;
 	 		}
-			change=1;
 			break;
 	 	}
 		p=p->next;
-	} 
+	}
+	if(change==0)
+		printf("There is no change at the breakpoint %s!\n",p->expr);
+	change=1;
 	return change;
 }
 

@@ -149,9 +149,8 @@ int check_wp()
 	{
 		if(p->type=='w')
  		{
-			 printf("1");
 			value=expr(p->expr,success);
-			printf("%x",value);
+			printf("%x   ",value);
 			if(value!=p->new_value)
  			{
 			//	 printf("1");

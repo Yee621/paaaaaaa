@@ -33,15 +33,10 @@ void cpu_exec(uint64_t n) {
 
 #ifdef DEBUG
     /* TODO: check watchpoints here. */
-	int temp=check_wp();
+
 	while(check_wp())
 	{
 		;
-	}
-	if(temp==1)
-	{
-		nemu_state=NEMU_STOP;
-		printf("STOP!");
 	}
 
 	if(check_bp())

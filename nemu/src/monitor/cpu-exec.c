@@ -34,7 +34,7 @@ void cpu_exec(uint64_t n) {
 #ifdef DEBUG
     /* TODO: check watchpoints here. */
 
-	while(check_wp())
+	if(check_wp())
 	{
 		;
 	}

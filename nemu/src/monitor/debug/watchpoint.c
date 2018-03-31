@@ -8,7 +8,7 @@ static WP *head, *free_;
 
 void init_wp_pool() {
   int i;
-  for (i = 0; i < NR_WP; i ++) {
+   for (i = 0; i < NR_WP; i ++) {
     wp_pool[i].NO = i;
     wp_pool[i].next = &wp_pool[i + 1];
   }
@@ -33,16 +33,10 @@ void  new_wp(char *args)
 		strcpy(p->expr,args);
 		p->new_value=expr(args,success);
 		p->type='w';
-		if(head!=NULL)
-		{
-			p->next=head;
-			head=p;
-		}
-		else
+		if(head==NULL)
 		{
 			head=p;
-			p->next=NULL;
-		}
+		}	
 		set_NO();
 	}
 	else
@@ -57,7 +51,7 @@ void  new_bp(char *args)
 	if(strlen(args)>31)
 		panic("The expression is too long!");
 	if(free_!=NULL)
-	{
+	{ 
 		WP *p;
 		bool *success;
 		success=(bool *)true;
@@ -67,16 +61,10 @@ void  new_bp(char *args)
 		strcpy(p->expr,args);
 		p->new_value=expr(args,success);
 		p->type='b';
-		if(head!=NULL)
-		{
-			p->next=head;
-			head=p;
-		}
-		else
+		if(head==NULL)
 		{
 			head=p;
-			p->next=NULL;
-		}
+	 	}
 		set_NO();
 	}
 	else
@@ -84,7 +72,7 @@ void  new_bp(char *args)
 		printf("The breakpoint has been used up!");
 		assert(0);
 	}
-}
+} 
 
 void free_wp(int num)
 {
@@ -100,13 +88,12 @@ void free_wp(int num)
 	}
 	else
 	{
-		for(p=p->next;p->next!=NULL;p=p->next)
+		for(p=p->next;p->next!=free_;p=p->next)
 		{
 			if(p->next->NO==num)
 			{
 				q=p->next;
 				p->next=p->next->next;
-				break;
 			}
 		}
 	}
@@ -114,16 +101,8 @@ void free_wp(int num)
 		panic("Can't find the NO.%d wp!",num);
 	q->NO=0;
 	q->new_value=0;
-	if(free_==NULL)
-	{
-		free_=q;
-		q->next=NULL;
-	}
-	else
-	{
-		q->next=free_;
-		free_=q;
-	}
+	p->next=q;
+	q->next=free_;
 	set_NO();
 }
 
@@ -131,11 +110,11 @@ void set_NO()
 {
 	WP *p;
 	int num=1;
-	for(p=head;p!=NULL;p=p->next)
+	for(p=head;p!=free_;p=p->next)
 	{
 		p->NO=num;
 		num++;
-	}
+	} 
 }
 
 int check_wp()
@@ -145,12 +124,11 @@ int check_wp()
 	int change=0;
 	uint32_t value;
 	bool *success=(bool *)true;
-	while(p!=NULL)
+	while(p!=free_)
 	{
 		if(p->type=='w')
  		{
 			value=expr(p->expr,success);
-		//	printf("%x   ",value);
 			if(value!=p->new_value)
  			{
 				printf("watchponit %s:\n",p->expr);
@@ -159,7 +137,7 @@ int check_wp()
 				change=1;
 				p->old_value=p->new_value;
 				p->new_value=value;
-			}
+			} 
 		}
 		p=p->next;
 	}
@@ -173,7 +151,7 @@ int check_bp()
 	int change=0;
 	uint32_t value;
 	bool *success=(bool *)true;
-	while(p!=NULL)
+	while(p!=free_)
 	 {
 		if(p->type=='b')
 	 	{
@@ -202,7 +180,7 @@ void info_wp()
 		printf("Num	type	expr	value\n");
 	else 
 		printf("There is no watchpoint or breakpoint!\n");
-	while(p!=NULL)
+	while(p!=free_)
 	{
 		printf("%d	%c	%s	%x\n",p->NO,p->type,p->expr,p->new_value);
 		p=p->next;

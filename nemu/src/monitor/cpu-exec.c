@@ -36,7 +36,8 @@ void cpu_exec(uint64_t n) {
 
 	if(check_wp())
 	{
-		;
+		nemu_state=NEMU_STOP;
+		printf("STOP!\n");
 	}
 
 	if(check_bp())

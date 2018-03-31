@@ -151,6 +151,7 @@ int check_wp()
  		{
 			 printf("1");
 			value=expr(p->expr,success);
+			printf("%x",value);
 			if(value!=p->new_value)
  			{
 			//	 printf("1");

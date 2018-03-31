@@ -147,12 +147,12 @@ int check_wp()
 	bool *success=(bool *)true;
 	while(p!=NULL)
 	{
-		printf("1");
 		if(p->type=='w')
  		{
 			value=expr(p->expr,success);
 			if(value!=p->new_value)
  			{
+				 printf("1");
 				printf("watchponit %s:\n",p->expr);
 				printf("   old_value: %x\n",p->new_value);
 				printf("   new_value: %x\n",value);

@@ -164,7 +164,8 @@ int check_bp()
 				printf("   new_value: %x\n",value);
 				p->old_value=p->new_value;
 				p->new_value=value;
-	 		}
+				change=1;
+			}
 			break;
 	 	}
 		p=p->next;

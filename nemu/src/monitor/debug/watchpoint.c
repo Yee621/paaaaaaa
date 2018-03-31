@@ -128,9 +128,7 @@ int check_wp()
 	{
 		if(p->type=='w')
  		{
-		//	printf("%x ",value);
 			value=expr(p->expr,success);
-		printf("%x ",value);
 			if(value!=p->new_value)
  			{
 				printf("watchponit %s:\n",p->expr);

@@ -29,7 +29,23 @@ typedef union {
   struct{
 	rtlreg_t eax, ecx, edx, ebx, esp, ebp, esi, edi;
 	vaddr_t eip;
+
   };
+
+  union{
+	  uint32_t val;
+	  struct{
+	  	  rtlreg_t CF:1;           //CF:0
+		  rtlreg_t gap1:1;
+		  rtlreg_t PF:1;           //PF:2
+		  rtlreg_t gap2:1;
+		  rtlreg_t AF:1;           //AF:4
+		  rtlreg_t gap3:1;
+		  rtlreg_t ZF:1;           //ZF:6
+		  rtlreg_t SF:1;           //SF:7
+		  rtlreg_t gap4:3;         //OF:11
+	  };
+  }eflags;
 
 } CPU_state;
 

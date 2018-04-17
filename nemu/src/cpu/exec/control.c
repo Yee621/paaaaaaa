@@ -33,9 +33,9 @@ make_EHelper(call) {
 }
 
 make_EHelper(ret) {
-  rtlreg_t *temp=NULL;
-  rtl_pop(temp);
-  decoding.jmp_eip=*temp;
+  rtlreg_t temp;
+  rtl_pop(&temp);
+  decoding.jmp_eip=temp;
   decoding.is_jmp=1;
 
   print_asm("ret");

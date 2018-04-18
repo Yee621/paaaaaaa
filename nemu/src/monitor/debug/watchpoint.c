@@ -172,9 +172,10 @@ int check_bp()
 		p=p->next;
 	}
 	if(change==2)
+	{
 		printf("There is no change at the breakpoint %s!\n",p->expr);
-	if(change==2)
 		change=1;
+	}
 	return change;
 }
 

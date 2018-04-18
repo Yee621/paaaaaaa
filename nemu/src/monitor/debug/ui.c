@@ -106,7 +106,6 @@ static int cmd_si(char *args)
 	else 
 	{
 		step_num=atoi(args);
-		printf("%d\n",step_num);
 		if(step_num>=15)
 		{
 			printf("The number of 'si' must be smaller than 15!\n");

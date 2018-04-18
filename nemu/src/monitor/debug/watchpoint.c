@@ -136,6 +136,7 @@ int check_wp()
 				change=1;
 				p->old_value=p->new_value;
 				p->new_value=value;
+				return change;
 			} 
 		}
 		p=p->next;
@@ -165,7 +166,7 @@ int check_bp()
 				p->new_value=value;
 				change=1;
 			}
-			break;
+			return change;
 	 	}
 		p=p->next;
 	}

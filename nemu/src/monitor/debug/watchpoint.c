@@ -25,13 +25,12 @@ void  new_wp(char *args)
 	if(free_!=NULL)
 	{
 		WP *p;
-		bool *success;
-		success=(bool *)true;
+		bool success=true;
 		p=free_;
 		free_=free_->next;
 		memset(p->expr,0,sizeof(p->expr));
 		strcpy(p->expr,args);
-		p->new_value=expr(args,success);
+		p->new_value=expr(args,&success);
 		p->type='w';
 		if(head==NULL)
 		{
@@ -53,13 +52,12 @@ void  new_bp(char *args)
 	if(free_!=NULL)
 	{ 
 		WP *p;
-		bool *success;
-		success=(bool *)true;
+		bool success=true;
 		p=free_;
 		free_=free_->next;
 		memset(p->expr,0,sizeof(p->expr));
 		strcpy(p->expr,args);
-		p->new_value=expr(args,success);
+		p->new_value=expr(args,&success);
 		p->type='b';
 		if(head==NULL)
 		{
@@ -124,12 +122,12 @@ int check_wp()
 	p=head;
 	int change=0;
 	uint32_t value;
-	bool *success=(bool *)true;
+	bool success=true;
 	while(p!=free_)
 	{
 		if(p->type=='w')
  		{
-			value=expr(p->expr,success);
+			value=expr(p->expr,&success);
 			if(value!=p->new_value)
  			{
 				printf("watchponit %s:\n",p->expr);
@@ -151,13 +149,13 @@ int check_bp()
 	p=head;
 	int change=0;
 	uint32_t value;
-	bool *success=(bool *)true;
+	bool success=true;
 	while(p!=free_)
 	 {
 		if(p->type=='b')
 	 	{
 			change=2;
-			value=expr(p->expr,success);
+			value=expr(p->expr,&success);
 			if(value!=p->new_value)
 	 		{
 				printf("breakpoint %s:\n",p->expr);

@@ -33,14 +33,14 @@ nemu_state = NEMU_RUNNING;
 
 #ifdef DEBUG
     /* TODO: check watchpoints here. */
-
+/*
 	if(check_wp())
 	{
 		nemu_state=NEMU_STOP;
 		printf("STOP!\n");
 		return;
 	}
-
+*/
 	if(check_bp())
 	{ 
 		nemu_state=NEMU_STOP;

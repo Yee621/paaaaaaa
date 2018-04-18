@@ -118,63 +118,71 @@ void set_NO()
 
 int check_wp()
 {
-	WP *p;
-	p=head;
-	int change=0;
-	uint32_t value;
-	bool success=true;
-	while(p!=free_)
+	WP *p=head;
+	if(p!=NULL)
 	{
-		if(p->type=='w')
- 		{
-			value=expr(p->expr,&success);
-			if(value!=p->new_value)
+		p=head;
+		int change=0;
+		uint32_t value;
+		bool success=true;
+		while(p!=free_)
+		{
+			if(p->type=='w')
  			{
-				printf("watchponit %s:\n",p->expr);
-				printf("   old_value: %x\n",p->new_value);
-				printf("   new_value: %x\n",value);
-				change=1;
-				p->old_value=p->new_value;
-				p->new_value=value;
-			} 
+				value=expr(p->expr,&success);
+				if(value!=p->new_value)
+ 				{
+					printf("watchponit %s:\n",p->expr);
+					printf("   old_value: %x\n",p->new_value);
+					printf("   new_value: %x\n",value);
+					change=1;
+					p->old_value=p->new_value;
+					p->new_value=value;
+				} 
+			}
+			p=p->next;
 		}
-		p=p->next;
+		return change;
 	}
-	return change;
+	return 0;
 }
 
 int check_bp()
 {
-	WP *p;
-	p=head;
-	int change=0;
-	uint32_t value;
-	bool success=true;
-	while(p!=free_)
-	 {
-		if(p->type=='b')
-	 	{
-			change=2;
-			value=expr(p->expr,&success);
-			if(value!=p->new_value)
-	 		{
-				printf("breakpoint %s:\n",p->expr);
-				printf("   old_value: %x\n",p->new_value);
-				printf("   new_value: %x\n",value);
-				p->old_value=p->new_value;
-				p->new_value=value;
-				change=1;
-			}
-			break;
-	 	}
-		p=p->next;
-	}
-	if(change==2)
+	WP *p=head;
+	if(p!=NULL)
 	{
-		printf("There is no change at the breakpoint %s!\n",p->expr);
-		change=1;
+		p=head;
+		int change=0;
+		uint32_t value;
+		bool success=true;
+		while(p!=free_)
+		 {
+			if(p->type=='b')
+		 	{
+				change=2;
+				value=expr(p->expr,&success);
+				if(value!=p->new_value)
+		 		{
+					printf("breakpoint %s:\n",p->expr);
+					printf("   old_value: %x\n",p->new_value);
+					printf("   new_value: %x\n",value);
+					p->old_value=p->new_value;
+					p->new_value=value;
+					change=1;
+				}
+				break;
+		 	}
+			p=p->next;
+		}
+		if(change==2)
+		{
+			printf("There is no change at the breakpoint %s!\n",p->expr);
+			change=1;
+		}
+		return change;
 	}
-	return change;
+	return 0;
 }
 
 void info_wp()

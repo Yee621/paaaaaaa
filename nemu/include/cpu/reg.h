@@ -34,12 +34,16 @@ typedef union {
 	 {
 		rtlreg_t val;
 		struct{
-			 rtlreg_t CF;           //CF:0
-		     rtlreg_t PF;           //PF:2
-		     rtlreg_t AF;           //AF:4
-			 rtlreg_t ZF;           //ZF:6
-			 rtlreg_t SF;           //SF:7
-			 rtlreg_t OF;           //OF:11
+			 rtlreg_t CF:1;           //CF:0
+			 rtlreg_t gap1:1;
+		     rtlreg_t PF:1;           //PF:2
+			 rtlreg_t gap2:1;
+		     rtlreg_t AF:1;           //AF:4
+			 rtlreg_t gap3:1;
+			 rtlreg_t ZF:1;           //ZF:6
+			 rtlreg_t SF:1;           //SF:7
+			 rtlreg_t gap4:3;
+			 rtlreg_t OF:1;           //OF:11
 		 }; 
 	 }eflags;
 

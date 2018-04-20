@@ -30,14 +30,18 @@ typedef union {
 	 rtlreg_t eax, ecx, edx, ebx, esp, ebp, esi, edi;
 	 vaddr_t eip;
 
-	 struct{
-		 rtlreg_t CF;           //CF:0
-	     rtlreg_t PF;           //PF:2
-	     rtlreg_t AF;           //AF:4
-		 rtlreg_t ZF;           //ZF:6
-		 rtlreg_t SF;           //SF:7
-		 rtlreg_t OF;           //OF:11
-	 }eflags; 
+	 union
+	 {
+		rtlreg_t val;
+		struct{
+			 rtlreg_t CF;           //CF:0
+		     rtlreg_t PF;           //PF:2
+		     rtlreg_t AF;           //AF:4
+			 rtlreg_t ZF;           //ZF:6
+			 rtlreg_t SF;           //SF:7
+			 rtlreg_t OF;           //OF:11
+		 }; 
+	 }eflags;
 
   };
 

@@ -18,7 +18,6 @@ make_EHelper(and) {
   rtl_sext(&id_dest->val, &id_dest->val, id_dest->width);
   rtl_sext(&id_src->val, &id_src->val, id_src->width);
   rtl_and(&t1, &id_dest->val, &id_src->val);
- // operand_write(id_dest, &t0);
   rtl_update_ZFSF(&t1, id_dest->width);
   operand_write(id_dest, &t1);
 

@@ -1,7 +1,10 @@
 #include "cpu/exec.h"
 
 make_EHelper(jmp) {
+  rtl_sext(&id_dest->val, &id_dest->val, id_dest->width);
+
   // the target address is calculated at the decode stage
+  decoding.jmp_eip = decoding.seq_eip + id_dest->val;
   decoding.is_jmp = 1;
 
   print_asm("jmp %x", decoding.jmp_eip);
@@ -9,6 +12,7 @@ make_EHelper(jmp) {
 
 make_EHelper(jcc) {
   rtl_sext(&id_dest->val, &id_dest->val, id_dest->width);
+  
   // the target address is calculated at the decode stage
   uint8_t subcode = decoding.opcode & 0xf;
   rtl_setcc(&t2, subcode);

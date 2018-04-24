@@ -70,7 +70,19 @@ make_EHelper(inc) {
 }
 
 make_EHelper(dec) {
-  TODO();
+  rtl_sext(&id_dest->val, &id_dest->val, id_dest->width);
+
+  rtl_subi(&t0, &id_dest->val, 1);
+  rtl_update_ZFSF(&t0, id_dest->width);
+  rtl_sltu(&t1, &id_dest->val, &id_src->val);
+  rtl_set_CF(&t1);
+  rtl_xor(&t1, &id_dest->val, &id_src->val);
+  rtl_xor(&t2, &id_dest->val, &t0);
+  rtl_and(&t2, &t2, &t1);
+  rtl_msb(&t2, &t2, id_dest->width);
+  rtl_set_OF(&t2);
+  
+  operand_write(id_dest, &t0);
 
   print_asm_template1(dec);
 }

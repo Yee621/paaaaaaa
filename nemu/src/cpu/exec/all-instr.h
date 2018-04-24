@@ -16,9 +16,6 @@ make_EHelper(imul3);
 make_EHelper(div);
 make_EHelper(idiv);
 
-//cc.c
-make_EHelper(setcc);
-
 //control.c
 make_EHelper(jmp);
 make_EHelper(jcc);

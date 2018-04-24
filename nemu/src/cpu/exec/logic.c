@@ -15,10 +15,10 @@ make_EHelper(test) {
 make_EHelper(and) {
   rtl_set_OF(&tzero);
   rtl_set_CF(&tzero);
-  printf("%x	%x\n",id_dest->val,id_src->val);
+ // printf("%x	%x\n",id_dest->val,id_src->val);
   rtl_sext(&id_dest->val, &id_dest->val, id_dest->width);
   rtl_sext(&id_src->val, &id_src->val, id_src->width);
-  printf("%x    %x\n",id_dest->val,id_src->val);
+ // printf("%x    %x\n",id_dest->val,id_src->val);
   rtl_and(&t1, &id_dest->val, &id_src->val);
   rtl_update_ZFSF(&t1, id_dest->width);
   operand_write(id_dest, &t1);
@@ -81,6 +81,7 @@ make_EHelper(shr) {
 make_EHelper(setcc) {
   uint8_t subcode = decoding.opcode & 0xf;
   rtl_setcc(&t2, subcode);
+  printf("%d\n",t2);
   operand_write(id_dest, &t2);
 
   print_asm("set%s %s", get_cc_name(subcode), id_dest->str);

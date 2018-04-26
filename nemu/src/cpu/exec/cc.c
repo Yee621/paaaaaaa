@@ -20,7 +20,6 @@ void rtl_setcc(rtlreg_t* dest, uint8_t subcode) {
 		rtl_get_OF(&t2);
 		rtl_xor(dest, &t1, &t2);
 		rtl_or(dest, dest, &t0);
-		*dest = !(*dest);
 		break;
 	case CC_O:
 		rtl_get_OF(dest);

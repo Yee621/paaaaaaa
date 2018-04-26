@@ -41,10 +41,10 @@ make_EHelper(cltd) {
   else {
     rtl_sari(&t0, R_EAX, 31);
   }
-  if(t0 == 1)
-	  t1 = 0xffffffff;
-  else
+  if(t0 == 0)
 	  t1 = 0;
+  else
+	  t1 = 0xffffffff;
   rtl_sr(R_EDX, id_dest->width, &t1);
 
   print_asm(decoding.is_operand_size_16 ? "cwtl" : "cltd");

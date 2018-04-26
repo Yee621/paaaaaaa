@@ -266,7 +266,7 @@ make_EHelper(div) {
 }
 
 make_EHelper(idiv) {
-  rtl_sext(&id_dest->val, &id_dest->val, id_dest->width);
+  //rtl_sext(&id_dest->val, &id_dest->val, id_dest->width);
 
   switch (id_dest->width) {
     case 1:

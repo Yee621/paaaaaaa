@@ -35,17 +35,16 @@ make_EHelper(leave) {
 }
 
 make_EHelper(cltd) {
-  if (decoding.is_operand_size_16) {
-    rtl_sari(&t0, R_EAX, 15);
-  }
-  else {
-    rtl_sari(&t0, R_EAX, 31);
-  }
-  if(t0 == 0)
-	  t1 = 0;
+  rtl_lr(&t0, R_EAX, id_dest->width);
+  if (decoding.is_operand_size_16) 
+	  rtl_sari(&t1, &t0, 15);
   else
-	  t1 = 0xffffffff;
-  rtl_sr(R_EDX, id_dest->width, &t1);
+	  rtl_sari(&t1, &t0, 31);
+  if(t1 == 0)
+	  t2 = 0;
+  else
+	  t2 = 0xffffffff;
+  rtl_sr(R_EDX, id_dest->width, &t2);
 
   print_asm(decoding.is_operand_size_16 ? "cwtl" : "cltd");
 }

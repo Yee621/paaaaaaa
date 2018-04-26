@@ -47,7 +47,7 @@ void rtl_setcc(rtlreg_t* dest, uint8_t subcode) {
 		rtl_get_OF(&t1);
 		rtl_get_ZF(&t2);
 		rtl_xor(dest, &t0, &t1);
-		rtl_or(dest, dest, &t2);
+		rtl_and(dest, dest, &t2);
 		rtl_andi(dest, dest, 0x1);
 		break;
     default: panic("should not reach here");

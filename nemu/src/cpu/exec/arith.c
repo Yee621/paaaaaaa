@@ -292,6 +292,8 @@ make_EHelper(idiv) {
 
   rtl_idiv(&t2, &t3, &t1, &t0, &id_dest->val);
 
+	printf("%x\n",t2);
+
   rtl_sr(R_EAX, id_dest->width, &t2);
   if (id_dest->width == 1) {
     rtl_sr_b(R_AH, &t3);

@@ -1,5 +1,14 @@
 #include "cpu/exec.h"
 
+make_EHelper(rol){
+  rtl_shl(&t0, &id_dest->val, &id_src->val);
+  rtl_shri(&t1, &id_dest->val, id_dest->width);
+  rtl_or(&t2, &t0, &t1);
+  operand_write(id_dest, &t2);
+
+  print_asm_template2(rol);
+}
+
 make_EHelper(test) {
   rtl_set_OF(&tzero);
   rtl_set_CF(&tzero);

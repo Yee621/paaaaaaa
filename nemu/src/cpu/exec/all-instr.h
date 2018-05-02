@@ -38,6 +38,7 @@ make_EHelper(movzx);
 make_EHelper(lea);
 
 //logic.c
+make_EHelper(rol);
 make_EHelper(test);
 make_EHelper(and);
 make_EHelper(xor);

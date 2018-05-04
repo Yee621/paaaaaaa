@@ -43,7 +43,7 @@ void _draw_sync() {
 int _read_key() {
 
   uint32_t key_code = _KEY_NONE;
-  if (inl(I8042_STATUS_PORT) & I8042_STATUS_HASKEY_MASK)
+  if (inb(I8042_STATUS_PORT) & I8042_STATUS_HASKEY_MASK)
 	  key_code = inl(I8042_DATA_PORT);
 
   return key_code;

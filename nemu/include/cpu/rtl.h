@@ -141,7 +141,7 @@ static inline void rtl_sext(rtlreg_t* dest, const rtlreg_t* src1, int width) {
   rtl_sari(dest, &t0, 32 - width * 8);
 }
 
-/*static inline*/ void rtl_push(const rtlreg_t* src1) {
+static inline void rtl_push(const rtlreg_t* src1) {
   // esp <- esp - 4
   // M[esp] <- src1
   rtl_subi(&cpu.esp,&cpu.esp,4);

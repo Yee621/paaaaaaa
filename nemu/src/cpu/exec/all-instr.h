@@ -59,7 +59,7 @@ make_EHelper(inv);
 make_EHelper(nemu_trap);
 
 //system.c
-make_EHelper(lidit);
+make_EHelper(lidt);
 make_EHelper(mov_r2cr);
 make_EHelper(mov_cr2r);
 make_EHelper(int);

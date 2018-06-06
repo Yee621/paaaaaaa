@@ -43,7 +43,6 @@ void *_sbrk(intptr_t increment){
 	  return (void *)old_pb;
   }
   else
-	  Log("11111");
 	  return (void *)-1;
 }
 

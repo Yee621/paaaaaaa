@@ -6,8 +6,10 @@ uintptr_t sys_write(int fd, const uint8_t *buf, size_t count){
 	Log();
 	uintptr_t i = 0;
 	if (fd == 1 || fd == 2){
-			for(; i < count; i++)
+			for(; count > 0; count--){
 				_putc(((char*)buf)[i]);
+				i++;
+			}
 		}
 	return i;
 }

@@ -1,9 +1,8 @@
 #include "common.h"
 #include "syscall.h"
+#include "fs.h"
 
-extern ssize_t fs_write(int fd, const void *buf, size_t len);
-
-uintptr_t sys_write(int fd, const void *buf, size_t count){
+uintptr_t sys_write(int fd, const uint8_t *buf, size_t count){
 	uintptr_t i = 0;
 	if (fd == 1 || fd == 2){
 			for(; i < count; i++)
@@ -29,8 +28,8 @@ _RegSet* do_syscall(_RegSet *r) {
 		break;
 	case SYS_write:
 		Log();
-		r->eax = sys_write(a[1], (void *)a[2], a[3]);
-		//r->eax = fs_write(a[1], (void *)a[2], a[3]);
+		//r->eax = sys_write(a[1], (uint8_t *)a[2], a[3]);
+		r->eax = fs_write(a[1], (uint8_t *)a[2], a[3]);
 		break;
 	case SYS_brk:
 		r->eax = 0;

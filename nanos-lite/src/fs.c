@@ -1,9 +1,13 @@
 #include "fs.h"
 
+extern void fb_write(const void *buf, off_t offset, size_t len);
+extern void ramdisk_write(const void *buf, off_t offset, size_t len);
+
 typedef struct {
   char *name;
   size_t size;
   off_t disk_offset;
+  off_t open_offset;
 } Finfo;
 
 enum {FD_STDIN, FD_STDOUT, FD_STDERR, FD_FB, FD_EVENTS, FD_DISPINFO, FD_NORMAL};
@@ -23,4 +27,30 @@ static Finfo file_table[] __attribute__((used)) = {
 
 void init_fs() {
   // TODO: initialize the size of /dev/fb
+  file_table[FD_FB].size = _screen.height * _screen.width * 4;
+  file_table[FD_FB].open_offset = 0;
+}
+
+ssize_t fs_write(int fd, uint8_t *buf, size_t len) {
+    size_t size, nwrite;
+	//Finfo *fp = &file_table[fd];
+    size = file_table[fd].size - file_table[fd].open_offset;
+    nwrite = len > size ? size : len;
+    switch (fd) {
+    	case FD_STDOUT:
+	    case FD_STDERR:
+			for(int i = 0; i < len; i++)
+				_putc(((char*)buf)[i]);
+		    return len;
+	    case FD_FB:
+		    fb_write(buf, file_table[fd].open_offset, nwrite);
+			break;
+		default:
+			if (fd < 6 || fd >= NR_FILES)
+				return -1;
+			ramdisk_write(buf, file_table[fd].disk_offset + file_table[fd].open_offset, nwrite);
+			break;
+	}
+	file_table[fd].open_offset += nwrite;
+	return nwrite;
 }

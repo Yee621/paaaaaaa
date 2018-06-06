@@ -3,6 +3,16 @@
 
 extern ssize_t fs_write(int fd, const void *buf, size_t len);
 
+uintptr_t sys_write(int fd, const void *buf, size_t count){
+	uintptr_t i = 0;
+	if (fd == 1 || fd == 2){
+			for(; i < count; i++)
+				_putc(((char*)buf)[i]);
+		}
+	return i;
+}
+
+
 _RegSet* do_syscall(_RegSet *r) {
   uintptr_t a[4];
   //result = 1;
@@ -18,8 +28,9 @@ _RegSet* do_syscall(_RegSet *r) {
 		_halt(a[1]);
 		break;
 	case SYS_write:
-		//Log("call the write\n");
-		r->eax = fs_write(a[1], (void *)a[2], a[3]);
+		Log("call the write\n");
+		r->eax = sys_write(a[1], (void *)a[2], a[3]);
+		//r->eax = fs_write(a[1], (void *)a[2], a[3]);
 		break;
 	case SYS_brk:
 		r->eax = 0;

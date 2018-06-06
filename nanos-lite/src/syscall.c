@@ -3,6 +3,7 @@
 #include "fs.h"
 
 uintptr_t sys_write(int fd, const uint8_t *buf, size_t count){
+	Log();
 	uintptr_t i = 0;
 	if (fd == 1 || fd == 2){
 			for(; i < count; i++)
@@ -27,7 +28,6 @@ _RegSet* do_syscall(_RegSet *r) {
 		_halt(a[1]);
 		break;
 	case SYS_write:
-		Log();
 		//r->eax = sys_write(a[1], (uint8_t *)a[2], a[3]);
 		r->eax = fs_write(a[1], (uint8_t *)a[2], a[3]);
 		break;

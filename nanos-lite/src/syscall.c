@@ -21,6 +21,9 @@ _RegSet* do_syscall(_RegSet *r) {
 		Log("call the write\n");
 		r->eax = fs_write(a[1], (uint8_t *)a[2], a[3]);
 		break;
+	case SYS_brk:
+		r->eax = 0;
+		break;
     default: panic("Unhandled syscall ID = %d", a[0]);
   }
 

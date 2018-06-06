@@ -28,8 +28,8 @@ _RegSet* do_syscall(_RegSet *r) {
 		_halt(a[1]);
 		break;
 	case SYS_write:
-		//r->eax = sys_write(a[1], (uint8_t *)a[2], a[3]);
-		r->eax = fs_write(a[1], (uint8_t *)a[2], a[3]);
+		r->eax = sys_write(a[1], (uint8_t *)a[2], a[3]);
+		//r->eax = fs_write(a[1], (uint8_t *)a[2], a[3]);
 		break;
 	case SYS_brk:
 		r->eax = 0;

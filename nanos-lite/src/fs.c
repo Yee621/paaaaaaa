@@ -75,7 +75,7 @@ ssize_t fs_write(int fd, uint8_t *buf, size_t len){
 	Log("in the write, fd = %d, file size = %d, len = %d, file open_offset = %d\n", fd, file_table[fd].size, len, file_table[fd].open_offset);
     size = file_table[fd].size - file_table[fd].open_offset;
     wlen = len > size ? size : len;
-    switch (fd) {
+    switch (fd){
     	case FD_STDOUT:
 	    case FD_STDERR:
 			for(int i = 0; i < len; i++)

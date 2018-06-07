@@ -16,11 +16,12 @@ uintptr_t sys_write(int fd, const uint8_t *buf, size_t count){
 
 _RegSet* do_syscall(_RegSet *r) {
   uintptr_t a[4];
-  //result = 1;
+
   a[0] = SYSCALL_ARG1(r);
   a[1] = SYSCALL_ARG2(r);
   a[2] = SYSCALL_ARG3(r);
   a[3] = SYSCALL_ARG4(r);
+
   switch (a[0]) {
 	case SYS_none:
 		r->eax = 1;
@@ -47,12 +48,10 @@ _RegSet* do_syscall(_RegSet *r) {
 	case SYS_lseek:
 		//Log("11111");
 		r->eax = fs_lseek(a[1], a[2], a[3]);
-		Log("sys_lseek: %d", r->eax);
+		//Log("sys_lseek: %d", r->eax);
 		break;
     default: panic("Unhandled syscall ID = %d", a[0]);
   }
-
-  //SYSCALL_ARG1(r) = result;
 
   return NULL;
 }

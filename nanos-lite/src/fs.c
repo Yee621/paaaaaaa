@@ -95,12 +95,12 @@ ssize_t fs_write(int fd, uint8_t *buf, size_t len){
 }
 
 off_t fs_lseek(int fd, off_t offset, int whence){
-/*	Log("fd = %d, NR_FILES = %d, offset = %d, open_offset = %d",fd,NR_FILES,offset,file_table[fd].open_offset);
+	//Log("fd = %d, NR_FILES = %d, offset = %d, open_offset = %d",fd,NR_FILES,offset,file_table[fd].open_offset);
 	if(fd > NR_FILES)
 		return 0;
 	switch(whence){
 		case SEEK_SET:
-			Log("1");
+			//Log("1");
 			if(offset >= 0 && offset <= file_table[fd].size){
 				file_table[fd].open_offset = offset;
 				return file_table[fd].open_offset;
@@ -108,22 +108,23 @@ off_t fs_lseek(int fd, off_t offset, int whence){
 			else
 				return -1;
 		case SEEK_CUR:
-			Log("2");
-			file_table[fd].open_offset += offset;
+			//Log("2");
+			offset += file_table[fd].open_offset;
 			break;
 		case SEEK_END:
-			Log("3");
-			file_table[fd].open_offset += offset;
+			//Log("3");
+			offset += file_table[fd].open_offset;
 			break;
 		default:
-			Log("4");
+			//Log("4");
 			return -1;
 	}
-	if(file_table[fd].open_offset < 0 || file_table[fd].open_offset > file_table[fd].size)
+	if(offset < 0 || offset > file_table[fd].size)
 		return -1;
-	Log("%d",file_table[fd].open_offset);
-	return file_table[fd].open_offset;*/
-	Finfo *fp = &file_table[fd];
+	//Log("%d",file_table[fd].open_offset);
+	file_table[fd].open_offset = offset;
+	return file_table[fd].open_offset;
+/*	Finfo *fp = &file_table[fd];
 	if(fd >= NR_FILES) return 0;
 	switch(whence){
 		case SEEK_SET:
@@ -140,7 +141,7 @@ off_t fs_lseek(int fd, off_t offset, int whence){
 	if(offset < 0 || offset > fp->size) 
 		return -1;
 	fp->open_offset = offset;
-	return fp->open_offset;
+	return fp->open_offset;*/
 }
 
 int fs_close(int fd){

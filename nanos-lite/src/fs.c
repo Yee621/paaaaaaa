@@ -47,6 +47,7 @@ int fs_open(const char *pathname, int flags, int mode){
 
 ssize_t fs_read(int fd, void *buf, size_t len){
     ssize_t size , rlen;
+	Log("in the read, fd = %d, file size = %d, len = %d, file open_offset = %d\n", fd, file_table[fd].size, len, file_table[fd].open_offset);
     size = file_table[fd].size - file_table[fd].open_offset;
     rlen = len > size ? size : len;
     switch (fd) {
@@ -70,6 +71,7 @@ ssize_t fs_read(int fd, void *buf, size_t len){
 
 ssize_t fs_write(int fd, uint8_t *buf, size_t len){
     ssize_t size , wlen;
+	Log("in the write, fd = %d, file size = %d, len = %d, file open_offset = %d\n", fd, file_table[fd].size, len, file_table[fd].open_offset);
     size = file_table[fd].size - file_table[fd].open_offset;
     wlen = len > size ? size : len;
     switch (fd) {

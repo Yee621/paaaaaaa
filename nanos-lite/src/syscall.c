@@ -32,6 +32,9 @@ _RegSet* do_syscall(_RegSet *r) {
 		//r->eax = sys_write(a[1], (uint8_t *)a[2], a[3]);
 		r->eax = fs_write(a[1], (uint8_t *)a[2], a[3]);
 		break;
+	case SYS_read:
+		r->eax = fs_read(a[1], (uint8_t *)a[2], a[3]);
+		break;
 	case SYS_brk:
 		r->eax = 0;
 		break;
@@ -42,7 +45,7 @@ _RegSet* do_syscall(_RegSet *r) {
 		r->eax = fs_close(a[1]);
 	   	break;
 	case SYS_lseek:
-		Log("11111");
+		//Log("11111");
 		r->eax = fs_lseek(a[1], a[2], a[3]);
 		Log("sys_lseek: %d", r->eax);
 		break;

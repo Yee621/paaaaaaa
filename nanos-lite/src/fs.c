@@ -38,7 +38,7 @@ int fs_open(const char *pathname, int flags, int mode){
 	for(int i = 0; i < NR_FILES; i++){
 		if(strcmp(file_table[i].name, pathname) == 0){
 			file_table[i].open_offset = 0;
-			Log("in the open, fd = %d, file size = %d, file open_offset = %d\n", i, file_table[i].size, file_table[i].open_offset);
+			Log("in the open, filename:%s, fd = %d, file size = %d, file open_offset = %d\n",pathname, i, file_table[i].size, file_table[i].open_offset);
 			return i;
 		}
 	}

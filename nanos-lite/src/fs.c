@@ -31,7 +31,7 @@ static Finfo file_table[] __attribute__((used)) = {
 void init_fs() {
   // TODO: initialize the size of /dev/fb
   file_table[FD_FB].size = _screen.height * _screen.width * 4;
-  file_table[FD_FB].open_offset = 0;
+  //file_table[FD_FB].open_offset = 0;
 }
 
 int fs_open(const char *pathname, int flags, int mode){
@@ -95,7 +95,7 @@ ssize_t fs_write(int fd, uint8_t *buf, size_t len){
 }
 
 off_t fs_lseek(int fd, off_t offset, int whence){
-	Log("fd = %d, NR_FILES = %d, whence = ",fd,NR_FILES);
+	Log("fd = %d, NR_FILES = %d, offset = %d, open_offset = %d",fd,NR_FILES,offset,file_table[fd].open_offset);
 	if(fd > NR_FILES)
 		return 0;
 	switch(whence){

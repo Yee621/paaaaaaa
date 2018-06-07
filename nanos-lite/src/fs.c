@@ -96,7 +96,7 @@ ssize_t fs_write(int fd, uint8_t *buf, size_t len){
 
 off_t fs_lseek(int fd, off_t offset, int whence){
 	//Log("fd = %d, NR_FILES = %d, offset = %d, open_offset = %d",fd,NR_FILES,offset,file_table[fd].open_offset);
-	if(fd > NR_FILES)
+	if(fd >= NR_FILES)
 		return 0;
 	switch(whence){
 		case SEEK_SET:

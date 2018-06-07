@@ -43,6 +43,7 @@ _RegSet* do_syscall(_RegSet *r) {
 	   	break;
 	case SYS_lseek:
 		r->eax = fs_lseek(a[1], a[2], a[3]);
+		Log("sys_lseek: %d", r->eax);
 		break;
     default: panic("Unhandled syscall ID = %d", a[0]);
   }

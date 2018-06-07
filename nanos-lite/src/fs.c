@@ -124,24 +124,6 @@ off_t fs_lseek(int fd, off_t offset, int whence){
 	//Log("%d",file_table[fd].open_offset);
 	file_table[fd].open_offset = offset;
 	return file_table[fd].open_offset;
-/*	Finfo *fp = &file_table[fd];
-	if(fd >= NR_FILES) return 0;
-	switch(whence){
-		case SEEK_SET:
-			break;
-		case SEEK_CUR:
-			offset = fp->open_offset + offset;
-            break;
-		case SEEK_END:
-			offset = fp->size + offset;
-			break;
-	    default: 
-			return -1;
-	}
-	if(offset < 0 || offset > fp->size) 
-		return -1;
-	fp->open_offset = offset;
-	return fp->open_offset;*/
 }
 
 int fs_close(int fd){

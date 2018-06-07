@@ -31,7 +31,7 @@ static Finfo file_table[] __attribute__((used)) = {
 void init_fs() {
   // TODO: initialize the size of /dev/fb
   file_table[FD_FB].size = _screen.height * _screen.width * 4;
-  //file_table[FD_FB].open_offset = 0;
+  file_table[FD_FB].open_offset = 0;
 }
 
 int fs_open(const char *pathname, int flags, int mode){

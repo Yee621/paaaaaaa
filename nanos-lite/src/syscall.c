@@ -42,6 +42,7 @@ _RegSet* do_syscall(_RegSet *r) {
 		r->eax = fs_close(a[1]);
 	   	break;
 	case SYS_lseek:
+		Log("11111");
 		r->eax = fs_lseek(a[1], a[2], a[3]);
 		Log("sys_lseek: %d", r->eax);
 		break;

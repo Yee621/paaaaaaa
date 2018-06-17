@@ -76,7 +76,7 @@ void vaddr_write(vaddr_t addr, int len, uint32_t data) {
 	paddr_t paddr;
 	if(CROSS_PAGE(addr, len)){
 		/* data cross the page boundary */
-		//assert(0);
+		assert(0);
 		for(int i = 0; i < len; i++){
 			paddr = page_translate(addr, true);
 			paddr_write(paddr, 1, data);

@@ -2,6 +2,8 @@
 #include "syscall.h"
 #include "fs.h"
 
+extern int mm_brk(uint32_t new_brk);
+
 uintptr_t sys_write(int fd, const uint8_t *buf, size_t count){
 	//Log();
 	uintptr_t i = 0;
@@ -37,7 +39,7 @@ _RegSet* do_syscall(_RegSet *r) {
 		r->eax = fs_read(a[1], (uint8_t *)a[2], a[3]);
 		break;
 	case SYS_brk:
-		r->eax = 0;
+		r->eax = mm_brk(a[1]);
 		break;
 	case SYS_open:
 		r->eax = fs_open((char *)a[1], a[2], a[3]);
